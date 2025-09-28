@@ -1,467 +1,1007 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Shortcut Key Hub - Windows & Mac 궁극의 최종판</title>
-    <!-- CSS 스타일: 깔끔하고 반응형 디자인, 모바일에서도 보기 좋음 -->
-    <style>
-        body {
-            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', dotum, 돋움, sans-serif;
-            margin: 20px;
-            background: #f9f9f9;
-            color: #222;
-            line-height: 1.6;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #007acc;
-            font-size: 2em;
-        }
-        #search {
-            width: 100%;
-            max-width: 600px;
-            display: block;
-            margin: 0 auto 30px;
-            padding: 12px 18px;
-            font-size: 16px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .shortcut-list {
-            max-width: 640px;
-            margin: 0 auto;
-            padding: 0;
-            list-style: none;
-        }
-        .shortcut-item {
-            background: white;
-            margin-bottom: 15px;
-            padding: 16px 22px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
-        }
-        .shortcut-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0, 122, 204, 0.3);
-        }
-        .shortcut-key {
-            font-weight: 700;
-            font-size: 18px;
-            color: #007acc;
-            margin-right: 10px;
-            word-break: break-all; /* 긴 단축키가 줄바꿈되도록 */
-        }
-        .platform {
-            font-weight: 600;
-            color: #555;
-            font-size: 13px;
-            background: #eaeaea;
-            padding: 4px 10px;
-            border-radius: 15px;
-            vertical-align: middle;
-            display: inline-block;
-            margin-bottom: 5px; /* 모바일에서 단축키와 설명 분리 */
-        }
-        .description {
-            margin-top: 8px;
-            font-size: 15px;
-            color: #444;
-        }
-        @media (max-width: 700px) {
-            body { margin: 15px; }
-            h1 { font-size: 1.8em; margin-bottom: 20px; }
-            #search { padding: 10px 12px; }
-            .shortcut-key { font-size: 17px; display: block; } /* 모바일에서 단축키를 블록으로 */
-            .platform { margin-left: 0; } /* 모바일에서 플랫폼 위치 조정 */
-            .description { margin-top: 5px; font-size: 14px; }
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Shortcut Key Hub</title>
+<style>
+    /* CSS Reset/Normalize (간단 버전) */
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed, 
+    figure, figcaption, footer, header, hgroup, 
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+    }
+    article, aside, details, figcaption, figure, 
+    footer, header, hgroup, menu, nav, section {
+        display: block;
+    }
+    body {
+        line-height: 1;
+    }
+    ol, ul {
+        list-style: none;
+    }
+    blockquote, q {
+        quotes: none;
+    }
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+        content: '';
+        content: none;
+    }
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+    /* End CSS Reset/Normalize */
 
-        /* 단축키 추가 요청 폼 스타일 */
-        .request-section {
-            max-width: 640px;
-            margin: 40px auto;
-            padding: 25px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    :root {
+        --primary-dark: #4a6982;
+        --primary-medium: #7b97b0;
+        --primary-light: #e0f2f7;
+        --accent-green: #68b36c;
+        --accent-orange: #f4a261;
+        --background-light: #f8f8f8;
+        --text-dark: #333;
+        --text-medium: #555;
+        --border-light: #cfd8dc;
+        --header-height: 80px;
+        --radius-big: 18px;
+        --radius-medium: 12px;
+        --radius-small: 8px;
+
+        --logo-s: #f28b82;
+        --logo-k: #ffd54f;
+        --logo-h: #81c784;
+    }
+    html, body {
+        font-family: 'Arial', sans-serif;
+        height: 100%;
+        background-color: var(--background-light);
+        color: var(--text-dark);
+        display: flex;
+        flex-direction: column;
+    }
+    header {
+        position: sticky;
+        top: 0;
+        background-color: var(--primary-dark);
+        color: white;
+        height: var(--header-height);
+        box-shadow: 0 3px 7px rgba(0,0,0,0.12);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        z-index: 1000;
+        border-radius: 0 0 var(--radius-medium) var(--radius-medium);
+        box-sizing: border-box;
+    }
+    .announcement-area {
+        width: 25%;
+        font-size: 0.9rem;
+        color: #ccc;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        user-select: none;
+    }
+    .announcement-area.left { text-align: left; }
+    .announcement-area.right { text-align: right; }
+    header h1 {
+        flex-grow: 1;
+        margin: 0;
+        text-align: center;
+        font-weight: 700;
+        font-size: 2.4rem;
+        user-select: none;
+        color: white;
+        letter-spacing: 2px;
+        cursor: pointer;
+    }
+    header h1 .highlight-s { color: var(--logo-s); }
+    header h1 .highlight-k { color: var(--logo-k); }
+    header h1 .highlight-h { color: var(--logo-h); }
+
+    .content-wrapper {
+        flex-grow: 1;
+        display: flex;
+        overflow: hidden;
+    }
+    #sidebar {
+        width: 220px;
+        background-color: var(--primary-light);
+        padding: 25px 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: auto;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.08);
+        position: sticky;
+        top: var(--header-height);
+        height: calc(100vh - var(--header-height));
+        border-radius: 0 0 var(--radius-big) 0;
+        z-index: 900;
+        flex-shrink: 0;
+    }
+    #sidebar .sidebar-logo {
+        width: 130px;
+        border-radius: var(--radius-big);
+        margin-bottom: 25px;
+        cursor: pointer;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+        object-fit: contain;
+    }
+    #sidebar .sidebar-logo:hover {
+        transform: scale(1.05);
+    }
+    #sidebar .sidebar-button {
+        width: 85%;
+        margin: 10px 0;
+        padding: 14px 0;
+        background-color: var(--primary-medium);
+        color: white;
+        border: none;
+        border-radius: var(--radius-medium);
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+        text-align: center;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        white-space: nowrap;
+        display: block;
+        user-select:none;
+    }
+    #sidebar .sidebar-button:hover:enabled {
+        background-color: var(--primary-dark);
+        box-shadow: 0 7px 14px rgba(0,0,0,0.15);
+    }
+    #sidebar .sidebar-button:disabled {
+        background-color: #bbb; /* 비활성화 시 회색 */
+        color: #666;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+    main {
+        flex-grow: 1;
+        background-color: var(--background-light);
+        padding: 40px;
+        overflow-y: auto;
+    }
+    .view {
+        display: none;
+        background: white;
+        border-radius: var(--radius-big);
+        padding: 40px 45px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+        min-height: 80vh;
+    }
+    .view.active { display: block; }
+
+    h2 { /* 모든 뷰의 제목 스타일 통일 */
+        font-weight: 700;
+        color: var(--primary-dark);
+        margin-bottom: 25px;
+        font-size: 2.8rem;
+    }
+
+    /* Input & Select Common Styles */
+    input[type="text"], 
+    select {
+        width: 100%;
+        padding: 16px 20px;
+        font-size: 1.2rem;
+        border-radius: var(--radius-medium);
+        border: 1.5px solid var(--border-light);
+        background-color: white;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        margin-bottom: 20px;
+        outline-offset: 0;
+        box-sizing: border-box; /* 패딩과 보더가 너비에 포함되도록 */
+        user-select:none;
+    }
+    input[type="text"]:focus,
+    select:focus {
+        border-color: var(--accent-green);
+        box-shadow: 0 0 10px rgba(104,179,108,0.3); /* 연두색 그림자 */
+        outline: none;
+    }
+    label {
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--text-dark);
+        display: block;
+        user-select:none;
+    }
+    
+    /* Contribute View Specific Styles */
+    #contributeView h2 {
+        color: var(--accent-orange);
+    }
+    #contributeView button {
+        width: 100%;
+        padding: 16px 0;
+        background-color: var(--accent-orange);
+        border: none;
+        border-radius: var(--radius-big);
+        font-size: 1.25rem;
+        font-weight: 900;
+        color: white;
+        user-select:none;
+        cursor: pointer;
+        box-shadow: 0 6px 15px rgba(244, 162, 97, 0.6);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    #contributeView button:hover:enabled {
+        background-color: #e09458;
+        box-shadow: 0 9px 18px rgba(224, 148, 88, 0.75);
+    }
+    #contributeView button:disabled {
+        background-color: #bbb; /* 비활성화 시 회색 */
+        color: #666;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+    #contributeMessage {
+        margin-top: 25px;
+        font-weight: 700;
+        color: var(--accent-green);
+        font-size: 1.2rem;
+        user-select:none;
+    }
+    #contributeTimeWarning {
+        font-size: 0.9rem;
+        color: var(--text-medium);
+        font-style: italic;
+        margin-top: 12px;
+        user-select:none;
+    }
+
+    /* Search View Specific Styles */
+    #osSelectorContainer, #versionSelectorContainer { /* #appSelectorContainer 제거 */
+        margin-bottom: 20px;
+    }
+    #searchResults ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    #searchResults li {
+        background: var(--primary-light);
+        padding: 16px 20px;
+        border-radius: var(--radius-medium);
+        margin-bottom: 18px;
+        box-shadow: 0 3px 9px rgba(0,0,0,0.06);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.05rem;
+    }
+    #searchResults li span {
+        font-weight: 700;
+        color: var(--primary-dark);
+        user-select:none;
+    }
+    #searchResults li .keys {
+        font-family: monospace;
+        background-color: #dbe9f7;
+        padding: 8px 16px;
+        border-radius: var(--radius-small);
+        color: var(--primary-dark);
+        font-weight: 700;
+        font-size: 1rem;
+        margin-left: 18px;
+        user-select:none;
+    }
+    #searchResults p.no-results,
+    #searchResults p.download-prompt {
+        text-align: center;
+        font-style: italic;
+        color: var(--text-medium);
+        margin-top: 18px;
+        margin-bottom: 0;
+        font-size: 1rem;
+        user-select:none;
+    }
+
+    /* Site Intro Content Specific Styles */
+    #siteIntroContent p {
+        font-size: 1.15rem;
+        color: var(--text-medium);
+        line-height: 1.75;
+        margin-bottom: 16px;
+    }
+    #siteIntroContent .highlight {
+        font-weight: 700;
+        color: var(--primary-dark);
+    }
+    #siteIntroContent .call-to-action a {
+        display: inline-block;
+        margin-top: 25px;
+        padding: 12px 25px;
+        background-color: var(--accent-orange);
+        color: white;
+        text-decoration: none;
+        border-radius: var(--radius-big);
+        font-weight: 700;
+        transition: background-color 0.3s ease;
+    }
+    #siteIntroContent .call-to-action a:hover {
+        background-color: #e09458;
+    }
+
+    /* Download View Specific Styles */
+    #downloadView {
+        text-align: center;
+        padding: 45px 30px;
+        background-color: #e8f5e9; /* 연한 연두색 배경 */
+        border-radius: var(--radius-big);
+        border: 1.5px solid #c8e6c9; /* 테두리 */
+        box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+    }
+    #downloadView h2 {
+        color: var(--accent-green);
+        font-size: 2.4rem;
+        margin-bottom: 18px;
+        user-select:none;
+    }
+    #downloadView h3 {
+        font-weight: 700;
+        margin-bottom: 25px;
+        font-size: 1.7rem;
+        color: var(--text-dark);
+        user-select:none;
+    }
+    #downloadView ul {
+        max-width: 650px;
+        margin: 30px auto 35px auto;
+        padding: 0;
+        text-align: left;
+        list-style: none;
+    }
+    #downloadView ul li {
+        font-weight: 600;
+        font-size: 1.1rem;
+        padding: 18px 25px;
+        margin-bottom: 15px;
+        background: white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border-radius: var(--radius-medium);
+        color: var(--text-dark);
+        user-select:none;
+    }
+    #downloadView ul li strong {
+        color: var(--accent-green);
+        margin-right: 10px;
+        user-select:none;
+    }
+    #downloadView ul li .highlight {
+        font-weight: 700;
+        color: var(--accent-orange);
+        user-select:none;
+    }
+    #downloadView .progress-text {
+        font-weight: 700;
+        font-size: 1.3rem;
+        color: var(--accent-green);
+        margin-top: 35px;
+        user-select:none;
+    }
+    #downloadView .call-to-action-button {
+        background-color: var(--accent-green);
+        padding: 16px 36px;
+        border-radius: var(--radius-big);
+        color: white;
+        font-size: 1.35rem;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 35px;
+        box-shadow: 0 8px 18px rgba(104, 178, 108, 0.6);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        cursor: pointer;
+        user-select:none;
+    }
+    #downloadView .call-to-action-button:hover {
+        background-color: #599d58;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 22px rgba(89, 157, 88, 0.75);
+    }
+
+    /* 미디어 쿼리: 모바일 환경 최적화 */
+    @media (max-width: 768px) {
+        header {
+            height: 60px;
+            padding: 0 15px;
         }
-        .request-section h2 {
-            text-align: center;
-            color: #007acc;
-            margin-bottom: 20px;
-            font-size: 1.5em;
+        header h1 {
+            font-size: 1.8rem;
         }
-        .request-form label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #444;
+        .announcement-area {
+            display: none; /* 모바일에서는 공지사항 영역 숨기기 */
         }
-        .request-form input[type="text"],
-        .request-form select {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 15px;
+        .content-wrapper {
+            flex-direction: column; /* 사이드바와 메인 콘텐츠 세로로 배치 */
         }
-        .request-form button {
-            display: block;
+        #sidebar {
             width: 100%;
-            padding: 12px;
-            background: #007acc;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s ease;
+            height: auto; /* 사이드바 높이 자동 조절 */
+            position: static; /* sticky 해제 */
+            padding: 15px;
+            border-radius: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            flex-direction: row; /* 버튼들 가로로 나열 */
+            flex-wrap: wrap; /* 공간 부족 시 다음 줄로 */
+            justify-content: center;
         }
-        .request-form button:hover {
-            background: #005f99;
+        #sidebar .sidebar-logo {
+            display: none; /* 모바일에서 로고 숨기기 */
         }
-        .response-message {
-            margin-top: 15px;
-            text-align: center;
-            font-weight: bold;
+        #sidebar .sidebar-button {
+            width: 45%; /* 버튼 너비 조절 */
+            margin: 5px;
+            font-size: 0.95rem;
+            padding: 10px 0;
         }
-        .response-message.success { color: green; }
-        .response-message.error { color: red; }
-    </style>
+        main {
+            padding: 20px;
+        }
+        .view {
+            padding: 25px;
+        }
+        h2 {
+            font-size: 2.0rem;
+        }
+        input[type="text"], 
+        select,
+        #contributeView button {
+            font-size: 1rem;
+            padding: 12px 15px;
+        }
+    }
+</style>
 </head>
 <body>
-    <h1>Shortcut Key Hub — Windows & Mac 단축키 궁극의 최종판</h1>
-    <input type="search" id="search" placeholder="단축키 또는 설명으로 검색하세요..." autocomplete="off" />
+<header id="header">
+    <div class="announcement-area left">현재 표시할 사항 없음</div>
+    <h1 id="logoLink">
+        <span class="highlight-s">S</span>hortcut <span class="highlight-k">K</span>ey <span class="highlight-h">H</span>ub
+    </h1>
+    <div class="announcement-area right">현재 표시할 사항 없음</div>
+</header>
 
-    <ul class="shortcut-list" id="list"></ul>
+<div class="content-wrapper">
+    <aside id="sidebar">
+        <img src="logo.png" alt="Shortcut Key Hub 로고" class="sidebar-logo" id="sidebarLogoLink" />
+        <button id="navSearchBtn" class="sidebar-button">단축키 검색</button>
+        <!-- #navProgramShortcutsBtn 버튼 삭제 -->
+        <button id="navContributeBtn" class="sidebar-button">단축키 추가 요청</button>
+        <button id="navAboutBtn" class="sidebar-button">사이트 소개</button>
+        <button id="navDownloadBtn" class="sidebar-button">프로그램 다운로드</button>
+    </aside>
 
-    <!-- 단축키 추가 요청 섹션 -->
-    <div class="request-section">
-        <h2>✨ 단축키 추가 요청 ✨</h2>
-        <form id="requestForm" class="request-form">
-            <label for="newShortcut">단축키:</label>
-            <input type="text" id="newShortcut" name="shortcut" placeholder="예: Ctrl + Alt + Delete" required />
+    <main>
+        <section id="siteIntroContent" class="view">
+            <h2>'Shortcut Key Hub'에 오신 것을 환영합니다!</h2>
+            <h3>세계 최고가 되고 싶은 <span class="highlight">6학년 개발자</span>의 야심찬 프로젝트!</h3>
+            <p>안녕하세요! 🚀 <span class="highlight">Shortcut Key Hub</span>는 당신의 작업 효율을 극대화하기 위해 탄생했습니다.</p>
+            <p>이곳에서는 <span class="highlight">Windows와 Mac</span>의 <span class="highlight">300개 이상의 엄선된 단축키</span>를 만나볼 수 있습니다.</p>
+            <p>모든 기능은 <span class="highlight">완전 무료</span>이며, 이 사이트는 어떠한 <span class="highlight">개인정보도 수집하지 않습니다.</span> 안심하고 빠르고 스마트한 단축키 세상을 경험해 보세요!</p>
+            <p>🔍 **초스피드 검색:** 원하는 단축키를 기능, OS, 버전으로 빠르고 정확하게 찾아낼 수 있습니다.</p>
+            <p>🤝 **함께 만드는 데이터:** "이 꿀팁은 없잖아?" 싶으면 바로 <span class="highlight">'단축키 추가 요청'</span>을 통해 당신의 지식을 공유해 주세요! 여러분의 요청 하나하나가 이 허브를 더욱 풍성하게 만듭니다.</p>
+            <div class="call-to-action">
+                <a href="#" id="startSearchLink">지금 바로 당신의 생산성을 한 단계 업그레이드할 단축키를 검색해 보세요!</a>
+            </div>
+        </section>
 
-            <label for="newDescription">설명:</label>
-            <input type="text" id="newDescription" name="description" placeholder="예: 작업 관리자 열기" required />
-            
-            <label for="newPlatform">플랫폼:</label>
-            <select id="newPlatform" name="platform" required>
-                <option value="">-- 선택하세요 --</option>
-                <option value="Windows">Windows</option>
-                <option value="Mac">Mac</option>
-                <option value="Both">둘 다</option>
-            </select>
+        <section id="searchView" class="view">
+            <h2>단축키 검색</h2>
+            <input type="text" id="searchInput" placeholder="단축키를 검색해보세요!" />
 
-            <button type="submit">새 단축키 요청 보내기</button>
-            <div id="responseMessage" class="response-message"></div>
-        </form>
-    </div>
+            <!-- #appSelectorContainer (프로그램 선택 드롭다운) 삭제 -->
 
-    <!-- JavaScript 기능: 단축키 데이터, 검색 필터링, 목록 렌더링, 그리고 Apps Script 연동까지! -->
-    <script>
-        // 이 부분에 너의 Google Apps Script 웹 앱 URL을 붙여넣어야 해!
-        // 예를 들어, const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfy.../exec";
-        const APPS_SCRIPT_URL = "여기에_네_구글_앱스_스크립트_웹_앱_URL을_붙여넣으세요"; 
+            <div id="osSelectorContainer">
+                <label for="osFilter">운영체제 (OS) 선택:</label>
+                <select id="osFilter">
+                    <option value="all">모든 OS</option>
+                    <option value="Windows">Windows</option>
+                    <option value="Mac">Mac</option>
+                </select>
+            </div>
+
+            <div id="versionSelectorContainer">
+                <label for="versionFilter">버전 선택:</label>
+                <select id="versionFilter" disabled>
+                    <option value="all">모든 버전</option>
+                </select>
+            </div>
+
+            <div id="searchResults">
+                <p class="no-results">단축키를 검색하거나 OS를 선택해보세요!</p>
+                <p class="download-prompt">이 기능을 항상 사용하고 싶다면 프로그램을 다운로드 하세요.</p>
+            </div>
+        </section>
+
+        <!-- #programListView (프로그램 목록 뷰) 삭제 -->
+
+        <section id="contributeView" class="view">
+            <h2>단축키 추가 요청</h2>
+            <p>알고 있는 유용한 단축키를 공유해주세요! 여러분의 지식이 모두에게 큰 도움이 됩니다.</p>
+            <form id="contributeForm">
+                <label for="contributeCategory">카테고리 (OS 선택):</label>
+                <select id="contributeCategory" required>
+                    <option value="">선택하세요</option>
+                    <option value="Windows">Windows</option>
+                    <option value="Mac">Mac</option>
+                </select>
+                
+                <!-- #contributeApp 입력 필드 삭제 -->
+
+                <label for="contributeDesc">기능 설명 (예: 새 폴더 만들기):</label>
+                <input type="text" id="contributeDesc" required />
+
+                <label for="contributeKeys">단축키 조합 (예: Ctrl + Shift + N):</label>
+                <input type="text" id="contributeKeys" placeholder="쉼표로 구분 (예: Ctrl, Shift, N)" required />
+
+                <button type="submit" id="contributeSubmitBtn">추가 요청하기</button>
+                <p id="contributeTimeWarning">※ 추가 요청 내용을 저장하는 시점의 현재 시간이 기록됩니다.</p>
+            </form>
+            <div id="contributeMessage" style="color: var(--accent-green); font-weight: 700; margin-top: 15px;"></div>
+        </section>
+
+        <section id="downloadView" class="view">
+            <h2>⚡ 작업 속도 혁신! Shortcut Key Hub 프로그램을 경험하세요! ⚡</h2>
+            <h3>마우스 없이 키보드로 모든 것을 제어하고 싶으신가요?</h3>
+            <p>웹사이트에서 찾던 편리함을 이제 <strong>당신의 컴퓨터에 직접</strong>! Shortcut Key Hub 프로그램은 데스크톱 환경에 최적화된 궁극의 단축키 솔루션입니다.</p>
+
+            <h4>✨ 주요 기능 하이라이트 ✨</h4>
+            <ul>
+                <li>
+                    <strong>🕵️‍♂️ 은밀한 대기 모드:</strong> 프로그램은 평소엔 숨겨져 있다가
+                    <strong><span class="highlight">Ctrl + Alt + E</span></strong> (설정 가능)만 누르면 화면 왼쪽 하단에 즉시 나타납니다!
+                </li>
+                <li><strong>🚀 빠른 단축키 검색:</strong> 웹사이트와 동일한 편리한 검색으로 필요한 단축키를 즉시 확인 가능합니다.</li>
+                <li><strong>💡 작업 몰입 유지:</strong> 마우스 사용 없이 키보드만으로 검색부터 단축키 확인까지 원활한 작업 흐름을 지원합니다.</li>
+                <li><strong>🌟 6학년 개발자의 열정 담김:</strong> "세계 최고가 되고 싶은 6학년 개발자"의 끊임없는 개선 의지가 담겨 있습니다.</li>
+            </ul>
+
+            <p>지금 바로 다운로드 받아 강력한 작업 효율을 체험하세요!</p>
+            <p class="progress-text">
+                현재 프로그램 개발이 진행 중이며,
+                <br />최대한 빠른 시일 내에 최고의 경험을 선사할 예정입니다!
+            </p>
+            <p>많은 기대 부탁드립니다! 😉</p>
+            <!-- 다운로드 버튼은 개발 완료 후 추가 예정 -->
+        </section>
+    </main>
+</div>
+
+<script>
+    function getElement(id) {
+        const el = document.getElementById(id);
+        if (!el) console.warn(`Warning: Element with ID "${id}" not found: ${id}`);
+        return el;
+    }
+
+    // 뷰 전환 함수
+    function showView(viewId) {
+        const allViewIds = ['searchView', 'contributeView', 'siteIntroContent', 'downloadView']; // #programListView 제거
         
-        // --- 경고 ---
-        // Apps Script 웹 앱 URL은 반드시 "익명 사용자"도 실행 가능하도록 배포해야 합니다.
-        // 그렇지 않으면 "405 Method Not Allowed" 같은 에러가 발생할 수 있습니다!
-        // https://developers.google.com/apps-script/guides/web?hl=ko#deploy_as_a_web_app
+        allViewIds.forEach((id) => {
+            const el = getElement(id);
+            if (el) el.style.display = 'none'; // 모든 뷰 숨기기
+        });
 
-        // 윈도우 & 맥 단축키 데이터 (생략 없이 모든 데이터 포함!!!)
-        const shortcuts = [
-            // --- Windows 단축키 ---
-            { shortcut: "Ctrl + C", description: "선택한 항목 복사", platform: "Windows" },
-            { shortcut: "Ctrl + V", description: "복사한 항목 붙여넣기", platform: "Windows" },
-            { shortcut: "Ctrl + X", description: "선택한 항목 잘라내기", platform: "Windows" },
-            { shortcut: "Ctrl + Z", description: "이전 동작 실행 취소", platform: "Windows" },
-            { shortcut: "Ctrl + Y", description: "이전 동작 다시 실행", platform: "Windows" },
-            { shortcut: "Ctrl + A", description: "모든 항목 선택", platform: "Windows" },
-            { shortcut: "Ctrl + S", description: "현재 파일 저장", platform: "Windows" },
-            { shortcut: "Ctrl + P", description: "문서 인쇄", platform: "Windows" },
-            { shortcut: "Ctrl + F", description: "문서 또는 창에서 찾기", platform: "Windows" },
-            { shortcut: "Ctrl + N", description: "새 파일 또는 새 창 열기", platform: "Windows" },
-            { shortcut: "Ctrl + O", description: "파일 열기", platform: "Windows" },
-            { shortcut: "Ctrl + W", description: "현재 활성 창 닫기", platform: "Windows" },
-            { shortcut: "Alt + Tab", description: "열려 있는 앱 간 전환", platform: "Windows" },
-            { shortcut: "Alt + F4", description: "활성 창 닫기 또는 앱 종료", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + D", description: "바탕 화면 표시/숨기기", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + E", description: "파일 탐색기 열기", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + L", description: "컴퓨터 잠금", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + R", description: "실행 대화 상자 열기", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + P", description: "디스플레이 프레젠테이션 모드 선택", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + I", description: "설정 앱 열기", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + M", description: "모든 창 최소화", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Shift + M", description: "최소화된 창 복원", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + A", description: "알림 센터 열기", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + X", description: "시작 버튼의 고급 메뉴 열기", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Print Screen", description: "전체 화면 스크린샷 찍고 파일로 저장", platform: "Windows" },
-            { shortcut: "Shift + Delete", description: "파일 영구 삭제 (휴지통 건너뛰기)", platform: "Windows" },
-            { shortcut: "F2", description: "선택한 항목 이름 변경", platform: "Windows" },
-            { shortcut: "F3", description: "파일 탐색기에서 파일 또는 폴더 검색", platform: "Windows" },
-            { shortcut: "F5", description: "활성 창 새로 고침", platform: "Windows" },
-            { shortcut: "Ctrl + Shift + Esc", description: "작업 관리자 열기", platform: "Windows" },
-            { shortcut: "Ctrl + Shift + N", description: "새 폴더 생성", platform: "Windows" },
-            { shortcut: "Ctrl + Alt + Delete", description: "잠금, 사용자 전환, 작업 관리자 등 옵션", platform: "Windows" },
-            { shortcut: "Ctrl + 마우스 휠 위/아래", description: "바탕화면 아이콘 크기 조절/폴더 내용 확대/축소", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Up Arrow", description: "창 최대화", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Down Arrow", description: "창 최소화 또는 복원", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Left Arrow", description: "창을 화면 왼쪽으로 스냅", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Right Arrow", description: "창을 화면 오른쪽으로 스냅", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Tab", description: "작업 보기 (가상 데스크톱 포함)", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Ctrl + D", description: "새 가상 데스크톱 추가", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Ctrl + Left/Right Arrow", description: "가상 데스크톱 전환", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Ctrl + F4", description: "현재 가상 데스크톱 닫기", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + ,", description: "바탕화면 미리보기", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Shift + S", description: "화면 캡처 도구 (부분 스크린샷)", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + G", description: "Xbox Game Bar 열기", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + . 또는 ;", description: "이모지 패널 열기", platform: "Windows" },
-            { shortcut: "Ctrl + Shift", description: "언어 입력 전환 (여러 언어 사용 시)", platform: "Windows" },
-            { shortcut: "Alt + Enter", description: "선택한 항목의 속성 표시", platform: "Windows" },
-            { shortcut: "Ctrl + Esc", description: "시작 메뉴 열기", platform: "Windows" },
-            { shortcut: "Print Screen", description: "현재 화면을 클립보드에 복사", platform: "Windows" },
-            { shortcut: "Alt + Print Screen", description: "현재 활성 창만 클립보드에 복사", platform: "Windows" },
-            { shortcut: "Ctrl + Arrow Key", description: "텍스트 커서를 단어 단위로 이동", platform: "Windows" },
-            { shortcut: "Ctrl + Shift + Arrow Key", description: "텍스트 단어 단위로 선택", platform: "Windows" },
-            { shortcut: "Home", description: "줄의 시작으로 이동", platform: "Windows" },
-            { shortcut: "End", description: "줄의 끝으로 이동", platform: "Windows" },
-            { shortcut: "Ctrl + Home", description: "문서의 시작으로 이동", platform: "Windows" },
-            { shortcut: "Ctrl + End", description: "문서의 끝으로 이동", platform: "Windows" },
-            { shortcut: "Page Up", description: "한 페이지 위로 스크롤", platform: "Windows" },
-            { shortcut: "Page Down", description: "한 페이지 아래로 스크롤", platform: "Windows" },
-            { shortcut: "Ctrl + Delete", description: "커서 오른쪽 단어 삭제", platform: "Windows" },
-            { shortcut: "Ctrl + Backspace", description: "커서 왼쪽 단어 삭제", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Ctrl + N", description: "내레이터 설정 열기", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Shift + Ctrl + B", description: "빈 화면 또는 검은 화면에서 PC 재시작", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + S", description: "검색 열기", platform: "Windows" },
-            { shortcut: "Ctrl + 클릭", description: "여러 항목 비연속적으로 선택", platform: "Windows" },
-            { shortcut: "Shift + 클릭", description: "여러 항목 연속적으로 선택", platform: "Windows" },
-            { shortcut: "Alt + Spacebar", description: "활성 창의 시스템 메뉴 열기", platform: "Windows" },
-            { shortcut: "Alt + Left Arrow", description: "이전 폴더 보기 (파일 탐색기)", platform: "Windows" },
-            { shortcut: "Alt + Right Arrow", description: "다음 폴더 보기 (파일 탐색기)", platform: "Windows" },
-            { shortcut: "Alt + Up Arrow", description: "상위 폴더 보기 (파일 탐색기)", platform: "Windows" },
-            { shortcut: "Backspac", description: "이전 폴더 보기 (파일 탐색기)", platform: "Windows" },
-            { shortcut: "Ctrl + Shift + 좌/우 Arrow", description: "다른 데스크톱으로 앱 이동", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Alt + D", description: "날짜 및 시간 위젯 열기/닫기", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Shift + V", description: "알림 순환", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Ctrl + V", description: "복사 기록 (클립보드 기록) 열기", platform: "Windows" },
-            { shortcut: "Ctrl + 마우스 휠 회전", description: "글꼴 크기 조정 (일부 앱)", platform: "Windows" },
-            { shortcut: "Alt", description: "앱 메뉴 막대 표시 (숨겨진 경우)", platform: "Windows" },
-            { shortcut: "Ctrl + F4", description: "활성 문서 닫기 (MDI 앱)", platform: "Windows" },
-            { shortcut: "Shift + F10", description: "선택한 항목의 바로 가기 메뉴 열기", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + C", description: "Teams 채팅 열기 (Windows 11)", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + N", description: "알림 센터 및 달력 열기 (Windows 11)", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + Z", description: "스냅 레이아웃 메뉴 열기 (Windows 11)", platform: "Windows" },
-            { shortcut: "Ctrl + Pagedown", description: "다음 탭으로 이동", platform: "Windows" },
-            { shortcut: "Ctrl + Pageup", description: "이전 탭으로 이동", platform: "Windows" },
-            { shortcut: "Ctrl + Shift + T", description: "닫은 탭 다시 열기 (브라우저)", platform: "Windows" },
-            { shortcut: "F11", description: "전체 화면 모드 전환", platform: "Windows" },
-            { shortcut: "Ctrl + B", description: "텍스트 굵게", platform: "Windows" },
-            { shortcut: "Ctrl + I", description: "텍스트 기울임", platform: "Windows" },
-            { shortcut: "Ctrl + U", description: "텍스트 밑줄", platform: "Windows" },
-            { shortcut: "Ctrl + D", description: "북마크 추가", platform: "Windows" },
-            { shortcut: "Ctrl + F5", description: "강제 새로고침 (캐시 무시)", platform: "Windows" },
-            { shortcut: "Ctrl + Home", description: "웹페이지 맨 위로 이동", platform: "Windows" },
-            { shortcut: "Ctrl + End", description: "웹페이지 맨 아래로 이동", platform: "Windows" },
-            { shortcut: "Ctrl + +/-", description: "화면 확대/축소", platform: "Windows" },
-            { shortcut: "Ctrl + 0", description: "화면 배율 재설정", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + R", description: "실행 대화 상자 열기", platform: "Windows" },
-            { shortcut: "Windows 로고 키 + K", description: "캐스트 메뉴 열기", platform: "Windows" },
-            { shortcut: "Ctrl + H", description: "브라우저 기록 열기", platform: "Windows" },
-            { shortcut: "Ctrl + J", description: "브라우저 다운로드 열기", platform: "Windows" },
-            { shortcut: "Ctrl + T", description: "새 탭 열기", platform: "Windows" },
-            { shortcut: "Ctrl + L 또는 F6", description: "주소 표시줄 선택", platform: "Windows" },
-            { shortcut: "F6", description: "주소 표시줄 선택 (주로 브라우저)", platform: "Windows" },
-            { shortcut: "Ctrl + U", description: "페이지 소스 보기", platform: "Windows" },
-            { shortcut: "F1", description: "도움말 열기", platform: "Windows" },
+        const target = getElement(viewId);
+        if (target) {
+            target.style.display = 'block'; // 선택된 뷰만 표시
+            if (viewId === 'searchView') {
+                const input = getElement('searchInput');
+                if (input) {
+                    input.focus();
+                    filterShortcuts(); // 검색 필터링 다시 실행
+                }
+            }
+        }
+    }
 
+    // 단축키 검색 및 필터링 함수
+    function filterShortcuts() {
+        const input = getElement('searchInput');
+        const osSel = getElement('osFilter');
+        const verSel = getElement('versionFilter');
+        const results = getElement('searchResults');
+        if (!input || !osSel || !verSel || !results) return;
 
-            // --- Mac 단축키 (여기에 모든 Mac 단축키가 포함됨) ---
-            { shortcut: "Command + C", description: "복사", platform: "Mac" },
-            { shortcut: "Command + V", description: "붙여넣기", platform: "Mac" },
-            { shortcut: "Command + X", description: "잘라내기", platform: "Mac" },
-            { shortcut: "Command + Z", description: "실행 취소", platform: "Mac" },
-            { shortcut: "Command + Shift + Z", description: "다시 실행", platform: "Mac" },
-            { shortcut: "Command + A", description: "전체 선택", platform: "Mac" },
-            { shortcut: "Command + F", description: "찾기", platform: "Mac" },
-            { shortcut: "Command + G", description: "다음 찾기", platform: "Mac" },
-            { shortcut: "Command + Shift + G", description: "이전 찾기", platform: "Mac" },
-            { shortcut: "Command + H", description: "현재 앱의 창 숨기기", platform: "Mac" },
-            { shortcut: "Command + M", description: "활성 창 최소화", platform: "Mac" },
-            { shortcut: "Command + N", description: "새로운 문서, 탭 또는 윈도우 열기", platform: "Mac" },
-            { shortcut: "Command + O", description: "문서 열기", platform: "Mac" },
-            { shortcut: "Command + P", description: "현재 문서 인쇄", platform: "Mac" },
-            { shortcut: "Command + Q", description: "활성 앱 종료", platform: "Mac" },
-            { shortcut: "Command + S", description: "현재 문서 저장", platform: "Mac" },
-            { shortcut: "Command + Shift + S", description: "다른 이름으로 저장", platform: "Mac" },
-            { shortcut: "Command + T", description: "새 탭 열기", platform: "Mac" },
-            { shortcut: "Command + W", description: "현재 윈도우/탭 닫기", platform: "Mac" },
-            { shortcut: "Command + Option + W", description: "활성 앱의 모든 윈도우 닫기", platform: "Mac" },
-            { shortcut: "Command + Space", description: "Spotlight 검색", platform: "Mac" },
-            { shortcut: "Command + Tab", description: "열려 있는 앱 사이 전환", platform: "Mac" },
-            { shortcut: "Command + Shift + 3", description: "전체 화면 스크린샷을 파일로 저장", platform: "Mac" },
-            { shortcut: "Command + Shift + 4", description: "선택한 영역 스크린샷을 파일로 저장", platform: "Mac" },
-            { shortcut: "Command + Shift + 5", description: "스크린 캡처/녹화 옵션 메뉴 열기", platform: "Mac" },
-            { shortcut: "Command + Shift + N", description: "새로운 폴더 생성", platform: "Mac" },
-            { shortcut: "Command + Delete", description: "선택한 항목을 휴지통으로 이동", platform: "Mac" },
-            { shortcut: "Command + Shift + Delete", description: "휴지통 비우기 (경고 창 없음)", platform: "Mac" },
-            { shortcut: "Command + Option + Esc", description: "강제 종료 윈도우 열기", platform: "Mac" },
-            { shortcut: "Command + Control + Q", description: "화면 잠금", platform: "Mac" },
-            { shortcut: "Option + Command + D", description: "Dock 자동 숨기기/보이기 토글", platform: "Mac" },
-            { shortcut: "Command + `", description: "같은 앱의 여러 윈도우 간 전환", platform: "Mac" },
-            { shortcut: "Control + Command + Space", description: "이모지 및 특수 문자 입력기 열기", platform: "Mac" },
-            { shortcut: "Command + Option + M", description: "활성 앱의 모든 윈도우 최소화", platform: "Mac" },
-            { shortcut: "Command + Option + H", description: "현재 앱을 제외한 다른 모든 앱 숨기기", platform: "Mac" },
-            { shortcut: "Command + Option + I", description: "Safari에서 개발자 도구 열기", platform: "Mac" },
-            { shortcut: "Command + Option + S", description: "접근성 단축키 켜기/끄기 토글 (시스템 설정)", platform: "Mac" },
-            { shortcut: "Command + Option + T", description: "일부 앱에서 도구 막대 표시/숨기기", platform: "Mac" },
-            { shortcut: "Command + R", description: "페이지/콘텐츠 새로 고침", platform: "Mac" },
-            { shortcut: "Command + Shift + R", description: "캐시를 무시하고 강제 새로 고침", platform: "Mac" },
-            { shortcut: "Control + Command + F", description: "앱을 전체 화면 모드로 전환/해제", platform: "Mac" },
-            { shortcut: "Command + Option + L", description: "다운로드 폴더 열기", platform: "Mac" },
-            { shortcut: "Command + Shift + G", description: "폴더 경로 입력 창 열기", platform: "Mac" },
-            { shortcut: "Command + Option + K", description: "네트워크 연결 끊기 (특정 앱)", platform: "Mac" },
-            { shortcut: "Command + Option + C", description: "선택한 폴더의 경로 복사", platform: "Mac" },
-            { shortcut: "Command + Control + Spacebar", description: "이모티콘 및 기호 패널 열기", platform: "Mac" },
-            { shortcut: "Command + Option + P", description: "Finder에서 파일 미리보기 (Quick Look)", platform: "Mac" },
-            { shortcut: "Command + Option + S", description: "선택 항목 숨기기/숨김 해제 (Finder)", platform: "Mac" },
-            { shortcut: "Command + Option + V", description: "항목 이동 (잘라내기-붙여넣기)", platform: "Mac" },
-            { shortcut: "Control + D", description: "텍스트에서 커서 오른쪽의 단어 삭제", platform: "Mac" },
-            { shortcut: "Control + K", description: "텍스트에서 커서부터 줄 끝까지 삭제", platform: "Mac" },
-            { shortcut: "Command + Left Arrow", description: "텍스트에서 줄의 시작으로 이동", platform: "Mac" },
-            { shortcut: "Command + Right Arrow", description: "텍스트에서 줄의 끝으로 이동", platform: "Mac" },
-            { shortcut: "Option + Left Arrow", description: "텍스트에서 단어 단위로 왼쪽 이동", platform: "Mac" },
-            { shortcut: "Option + Right Arrow", description: "텍스트에서 단어 단위로 오른쪽 이동", platform: "Mac" },
-            { shortcut: "Command + Up Arrow", description: "문서의 시작으로 이동", platform: "Mac" },
-            { shortcut: "Command + Down Arrow", description: "문서의 끝으로 이동", platform: "Mac" },
-            { shortcut: "Control + A", description: "행의 시작으로 이동", platform: "Mac" },
-            { shortcut: "Control + E", description: "행의 끝으로 이동", platform: "Mac" },
-            { shortcut: "Option + Shift + Volume Up", description: "볼륨을 미세하게 높이기", platform: "Mac" },
-            { shortcut: "Option + Shift + Volume Down", description: "볼륨을 미세하게 낮추기", platform: "Mac" },
-            { shortcut: "Command + ,", description: "활성 앱의 설정(환경설정) 열기", platform: "Mac" },
-            { shortcut: "Command + Shift + ?", description: "도움말 검색 또는 도움말 윈도우 열기", platform: "Mac" },
-            { shortcut: "Command + Shift + C", description: "클립보드 내용 보기 (특정 앱)", platform: "Mac" },
-            { shortcut: "Command + Shift + Option + Esc", description: "가장 최근 앱을 강제로 종료", platform: "Mac" },
-            { shortcut: "Command + Option + Escape", description: "강제 종료 윈도우 열기", platform: "Mac" },
-            { shortcut: "Option + Command + Delete", description: "휴지통 비우기 확인 없이 바로 비우기", platform: "Mac" },
-            { shortcut: "Command + Shift + T", description: "마지막으로 닫은 탭 다시 열기 (브라우저)", platform: "Mac" },
-            { shortcut: "Control + Command + Q", description: "화면을 즉시 잠금", platform: "Mac" },
-            { shortcut: "Fn + Delete", description: "커서 뒤 문자 삭제 (앞으로 지우기)", platform: "Mac" },
-            { shortcut: "Control + Shift + Power", description: "디스플레이 끄기", platform: "Mac" },
-            { shortcut: "Control + Command + Power", description: "강제로 컴퓨터 재시동", platform: "Mac" },
-            { shortcut: "Command + Option + Shift + V", description: "서식 없이 붙여넣기 (순수 텍스트)", platform: "Mac" },
-            { shortcut: "Command + Option + Up Arrow", description: "문서나 페이지를 한 화면 위로 스크롤", platform: "Mac" },
-            { shortcut: "Command + Option + Down Arrow", description: "문서나 페이지를 한 화면 아래로 스크롤", platform: "Mac" },
-            { shortcut: "Command + Option + Left Arrow", description: "활성 탭을 왼쪽으로 이동", platform: "Mac" },
-            { shortcut: "Command + Option + Right Arrow", description: "활성 탭을 오른쪽으로 이동", platform: "Mac" },
-            { shortcut: "Option + Shift + Brightness Up", description: "화면 밝기를 미세하게 높이기", platform: "Mac" },
-            { shortcut: "Option + Shift + Brightness Down", description: "화면 밝기를 미세하게 낮추기", platform: "Mac" },
-            { shortcut: "Shift + Command + Option + Q", description: "현재 사용자를 로그아웃 (확인 창)", platform: "Mac" },
-            { shortcut: "Command + Option + 8", description: "화면 색상 반전 토글 (접근성)", platform: "Mac" },
-            { shortcut: "Command + Option + Drag", description: "아이콘 간격 조절 (바탕화면)", platform: "Mac" },
-            { shortcut: "Command + Option + N", description: "새로운 스마트 폴더 생성 (Finder)", platform: "Mac" },
-            { shortcut: "Command + Option + T", description: "도구 막대 토글 (일부 앱)", platform: "Mac" },
-            { shortcut: "Command + Control + Space", description: "특수 문자, 이모지 입력 (모든 앱)", platform: "Mac" },
-            { shortcut: "Command + Option + I", description: "개발자 도구 열기 (Safari)", platform: "Mac" }
-        ];
+        const query = input.value.toLowerCase();
+        const selectedOs = osSel.value;
+        const selectedVersion = verSel.value;
 
-        const listEl = document.getElementById("list");
-        const searchEl = document.getElementById("search");
-        const requestForm = document.getElementById("requestForm");
-        const responseMessage = document.getElementById("responseMessage");
+        results.innerHTML = '';
+        const downloadMsg = document.createElement('p');
+        downloadMsg.classList.add('download-prompt');
+        downloadMsg.textContent = '이 기능을 항상 사용하고 싶다면 프로그램을 다운로드 하세요.';
+        results.appendChild(downloadMsg);
 
-        // 검색어에 따라 단축키를 필터링하는 함수
-        function filterShortcuts(keyword) {
-            const lower = keyword.trim().toLowerCase();
-            if (!lower) return shortcuts; // 검색어가 없으면 전체 목록 반환
-
-            return shortcuts.filter(({ shortcut, description, platform }) =>
-                shortcut.toLowerCase().includes(lower) ||
-                description.toLowerCase().includes(lower) ||
-                platform.toLowerCase().includes(lower) // 플랫폼 이름으로도 검색 가능!
-            );
+        // 아무 필터도 선택 안 했거나 검색어가 없으면 기본 메시지
+        if (query.trim() === '' && selectedOs === 'all' && selectedVersion === 'all') { // selectedApp 필터 제거
+            const defMsg = document.createElement('p');
+            defMsg.classList.add('no-results');
+            defMsg.textContent = '단축키를 검색하거나 OS를 선택해보세요!';
+            results.insertBefore(defMsg, downloadMsg);
+            return;
         }
 
-        // 필터링된 단축키 목록을 화면에 렌더링하는 함수
-        function renderList(items) {
-            listEl.innerHTML = ""; // 기존 목록 비우기
-            if (items.length === 0) {
-                listEl.innerHTML = '<li class="shortcut-item">검색 결과가 없습니다.</li>';
-                return;
-            }
-            items.forEach(({ shortcut, description, platform }) => {
-                const li = document.createElement("li");
-                li.className = "shortcut-item";
-                li.innerHTML = `
-                    <span class="shortcut-key">${shortcut}</span>
-                    <span class="platform">${platform}</span>
-                    <div class="description">${description}</div>
-                `;
-                listEl.appendChild(li);
+        const filtered = shortcutData.filter((sc) => {
+            // OS 기본 단축키만 대상으로 검색
+            const isOSSpecific = sc.app === 'OS 기본';
+            if (!isOSSpecific) return false; // 프로그램별 단축키는 현재 검색 대상에서 제외
+
+            // 검색어 매칭
+            const matchQuery =
+                (sc.description && sc.description.toLowerCase().includes(query)) ||
+                (sc.category && sc.category.toLowerCase().includes(query)) ||
+                (sc.os && sc.os.toLowerCase().includes(query)) ||
+                (sc.keys && sc.keys.some((k) => k.toLowerCase().includes(query)));
+
+            // OS 매칭
+            const matchOs = selectedOs === 'all' || (sc.os && sc.os === selectedOs);
+
+            // 버전 매칭
+            const matchVer = selectedVersion === 'all' || !sc.version || (sc.version && sc.version === selectedVersion);
+            
+            return matchQuery && matchOs && matchVer; // matchApp 필터 제거
+        });
+
+        if (filtered.length === 0) {
+            const noRes = document.createElement('p');
+            noRes.classList.add('no-results');
+            noRes.textContent = '검색 결과가 없습니다.';
+            results.insertBefore(noRes, downloadMsg);
+        } else {
+            const ul = document.createElement('ul');
+            filtered.forEach((sc) => {
+                const li = document.createElement('li');
+                const keysDisp = sc.keys && sc.keys.length > 0 ? sc.keys.join(' + ') : '단축키 정보 없음';
+                li.innerHTML = `<div><span>${sc.description || '설명 없음'}</span> - ${
+                    sc.os || 'OS 정보 없음'
+                } ${sc.version && sc.version !== 'N/A' ? `(${sc.version})` : ''} (${
+                    sc.category || '카테고리 정보 없음'
+                })</div><div class="keys">${keysDisp}</div>`;
+                ul.appendChild(li);
+            });
+            results.insertBefore(ul, downloadMsg);
+        }
+    }
+
+    // 페이지 로드 완료 시 실행
+    window.addEventListener('DOMContentLoaded', () => {
+        // 헤더 높이 설정
+        const header = getElement('header');
+        if (header) {
+            const headerHeight = header.offsetHeight;
+            document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+        }
+
+        // 초기 뷰 설정 (사이트 소개 뷰)
+        showView('siteIntroContent');
+
+        // OS 및 버전 필터 변경 이벤트
+        const osSelect = getElement('osFilter');
+        const verSelect = getElement('versionFilter');
+        if (osSelect && verSelect) {
+            osSelect.addEventListener('change', () => {
+                const selected = osSelect.value;
+                verSelect.innerHTML = '<option value="all">모든 버전</option>'; // 버전 필터 초기화
+                verSelect.disabled = true; // 기본적으로 비활성화
+                if (selected !== 'all' && osVersions[selected]) {
+                    osVersions[selected].forEach((v) => {
+                        const o = document.createElement('option');
+                        o.value = v;
+                        o.textContent = v;
+                        verSelect.appendChild(o);
+                    });
+                    verSelect.disabled = false; // 선택된 OS에 따라 활성화
+                }
+                filterShortcuts();
+            });
+            verSelect.addEventListener('change', filterShortcuts); // 버전 변경 시 필터링
+        }
+        
+        // 검색 입력 필드 이벤트
+        const searchInput = getElement('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', filterShortcuts);
+            filterShortcuts(); // 초기 로드 시 필터링 실행
+        }
+
+        // 네비게이션 버튼 (사이드바 메뉴, 로고) 이벤트 연결
+        const navButtons = [
+            { btnId: 'navSearchBtn', viewId: 'searchView' },
+            // { btnId: 'navProgramShortcutsBtn', viewId: 'programListView' }, // #navProgramShortcutsBtn 삭제
+            { btnId: 'navContributeBtn', viewId: 'contributeView' },
+            { btnId: 'navAboutBtn', viewId: 'siteIntroContent' },
+            { btnId: 'navDownloadBtn', viewId: 'downloadView' }
+        ];
+        navButtons.forEach(({ btnId, viewId }) => {
+            const btn = getElement(btnId);
+            if (btn) btn.addEventListener('click', () => {
+                showView(viewId);
+            });
+        });
+
+        // 사이드바 로고 클릭 시 사이트 소개 뷰로 이동
+        const sidebarLogo = getElement('sidebarLogoLink');
+        if (sidebarLogo) sidebarLogo.addEventListener('click', () => showView('siteIntroContent'));
+
+        // 헤더 로고 클릭 시 사이트 소개 뷰로 이동
+        const headerLogo = getElement('logoLink');
+        if (headerLogo) headerLogo.addEventListener('click', () => showView('siteIntroContent'));
+
+        // 사이트 소개 페이지의 "검색하기" 링크 클릭 시 검색 뷰로 이동
+        const startSearchLink = getElement('startSearchLink');
+        if (startSearchLink) {
+            startSearchLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showView('searchView');
             });
         }
 
-        // 검색창 입력 이벤트 리스너
-        searchEl.addEventListener("input", () => {
-            renderList(filterShortcuts(searchEl.value));
-        });
+        // 단축키 추가 요청 폼 제출 처리 (버튼 중복 클릭 방지 + 로딩 상태)
+        const contributeForm = getElement('contributeForm');
+        const submitBtn = getElement('contributeSubmitBtn'); 
+        const messageDiv = getElement('contributeMessage');
 
-        // 페이지 로드 시 초기 전체 목록 출력
-        renderList(shortcuts);
+        if (contributeForm && submitBtn && messageDiv) {
+            contributeForm.addEventListener('submit', (e) => {
+                e.preventDefault();
 
-        // 단축키 추가 요청 폼 제출 이벤트 리스너
-        requestForm.addEventListener("submit", async (e) => {
-            e.preventDefault(); // 기본 폼 제출 동작 방지
+                // 버튼 비활성화 및 로딩 텍스트로 변경
+                submitBtn.disabled = true;
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = '로딩 중...';
+                messageDiv.textContent = ''; // 메시지 초기화
 
-            if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === "https://script.google.com/macros/s/AKfycbyYwgO0ba1yzoUHohN1Ln9Zkjaj0EmKZDAlXfSPVf_D6o-1u9PuvBBXzZjgT6labH5KZA/exec") {
-                responseMessage.className = 'response-message error';
-                responseMessage.textContent = '❌ Google Apps Script 웹 앱 URL을 먼저 설정해주세요!';
-                return;
-            }
+                const category = getElement('contributeCategory').value;
+                const description = getElement('contributeDesc').value;
+                const keysStr = getElement('contributeKeys').value;
+                const keys = keysStr.split(',').map(k => k.trim()).filter(Boolean);
+                const timestamp = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
 
-            const formData = new FormData(requestForm);
-            const payload = {
-                shortcut: formData.get('shortcut'),
-                description: formData.get('description'),
-                platform: formData.get('platform')
-            };
-
-            responseMessage.className = 'response-message';
-            responseMessage.textContent = '요청 중...';
-
-            try {
-                const response = await fetch(APPS_SCRIPT_URL, {
+                fetch('https://script.google.com/macros/s/AKfycbyYwgO0ba1yzoUHohN1Ln9Zkjaj0EmKZDAlXfSPVf_D6o-1u9PuvBBXzZjgT6labH5KZA/exec', { // ✨ 여기에 네 웹 앱 URL 꼭 넣어줘! ✨
                     method: 'POST',
-                    mode: 'no-cors', // CORS 정책 우회 (Apps Script 배포 설정에서 처리 필요)
-                    cache: 'no-cache',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams(payload) // 폼 데이터를 URL 인코딩 형태로 전송
+                    mode: 'no-cors', 
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'addShortcut',
+                        data: { category, description, keys: keys.join(' + '), timestamp, app: 'OS 기본' }, // app 필드는 'OS 기본'으로 고정
+                    }),
+                })
+                .then(() => {
+                    messageDiv.style.color = 'var(--accent-green)'; // 성공 시 초록색
+                    messageDiv.textContent = '단축키 추가 요청이 성공적으로 접수되었습니다!';
+                })
+                .catch(() => {
+                    messageDiv.style.color = 'red'; // 실패 시 빨간색
+                    messageDiv.textContent = '추가 요청 중 오류가 발생했습니다. 네트워크 연결을 확인해주세요.';
+                })
+                .finally(() => {
+                    // 폼 초기화 (성공 여부와 관계없이)
+                    contributeForm.reset(); 
+                    // 버튼 텍스트 복구 및 활성화 (약간의 딜레이를 주어 사용자가 메시지를 볼 시간 주기)
+                    setTimeout(() => {
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        filterShortcuts(); // 단축키 목록 업데이트 (추가된 단축키가 검색에 포함되도록)
+                    }, 1500); // 1.5초 후 버튼 복구
                 });
+            });
+        }
+    });
 
-                // Apps Script의 no-cors 응답은 상태 코드를 직접 확인할 수 없으므로,
-                // Apps Script 코드에서 응답 본문에 'success' 등을 포함하여 처리하거나,
-                // 일단 네트워크 요청이 성공적으로 보내졌다고 가정
-                responseMessage.className = 'response-message success';
-                responseMessage.textContent = '✅ 단축키 요청이 성공적으로 전송되었습니다!';
-                requestForm.reset(); // 폼 초기화
+    // 샘플 단축키 데이터 + 동원이가 찾아온 단축키
+    const shortcutData = [
+        // --- 기본 샘플 데이터 (앱 필드 추가) ---
+        { category: 'General', description: '새 폴더 만들기', os: 'Windows', version: 'Windows 11', app: 'OS 기본', keys: ['Ctrl', 'Shift', 'N'] },
+        { category: 'General', description: '파일 탐색기 열기', os: 'Windows', version: 'Windows 10', app: 'OS 기본', keys: ['Win', 'E'] },
+        { category: 'General', description: '화면 잠금', os: 'Windows', version: 'Windows 11', app: 'OS 기본', keys: ['Win', 'L'] },
+        { category: 'General', description: '창 최소화', os: 'Mac', version: 'macOS Ventura', app: 'OS 기본', keys: ['Command', 'M'] },
+        { category: 'General', description: '앱 강제 종료', os: 'Mac', version: 'macOS Monterey', app: 'OS 기본', keys: ['Option', 'Command', 'Esc'] },
+        { category: 'General', description: '작업 관리자 열기', os: 'Windows', version: 'Windows 10', app: 'OS 기본', keys: ['Ctrl', 'Shift', 'Esc'] },
+        { category: 'General', description: '전체 화면 스크린샷', os: 'Mac', version: 'macOS Sonoma', app: 'OS 기본', keys: ['Command', 'Shift', '3'] },
+        { category: 'General', description: '이모지 패널 열기', os: 'Windows', version: 'Windows 11', app: 'OS 기본', keys: ['Win', '.'] },
+        { category: 'General', description: 'Finder에서 파일 찾기', os: 'Mac', version: 'macOS Sonoma', app: 'OS 기본', keys: ['Command', 'Shift', 'G'] },
 
-            } catch (error) {
-                console.error('요청 실패:', error);
-                responseMessage.className = 'response-message error';
-                responseMessage.textContent = '❌ 단축키 요청 실패! 콘솔을 확인해주세요.';
-            }
-        });
-    </script>
+        // --- 동원이가 찾아온 Windows OS 기본 단축키 ---
+        { category: '일반 단축키', description: '복사', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'C'] },
+        { category: '일반 단축키', description: '잘라내기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'X'] },
+        { category: '일반 단축키', description: '붙여넣기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'V'] },
+        { category: '일반 단축키', description: '실행 취소', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'Z'] },
+        { category: '일반 단축키', description: '삭제', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Delete'] },
+        { category: '일반 단축키', description: '텍스트 글꼴 확대 (휠 위로)', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', '휠 마우스'] },
+        { category: '일반 단축키', description: '텍스트 글꼴 축소 (휠 아래로)', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', '휠 마우스'] },
+        { category: '일반 단축키', description: '웹페이지 앞으로 이동 (휠 위로)', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Shift', '휠 마우스'] },
+        { category: '일반 단축키', description: '웹페이지 뒤로 이동 (휠 아래로)', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Shift', '휠 마우스'] },
+        { category: '일반 단축키', description: '웹사이트 이전 페이지', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', '왼쪽 화살표'] },
+        { category: '일반 단축키', description: '웹사이트 다음 페이지', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', '오른쪽 화살표'] },
+        { category: '일반 단축키', description: '선택한 항목 영구 삭제 (휴지통 안 거침)', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Shift', 'Delete'] },
+        { category: '일반 단축키', description: '선택한 항목 복사 (끌면서)', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', '끌기'] },
+        { category: '일반 단축키', description: '선택한 항목의 바로 가기 만들기 (끌면서)', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'Shift', '끌기'] },
+        { category: '일반 단축키', description: '선택한 항목 이름 바꾸기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['F2'] },
+        { category: '일반 단축키', description: '삽입 지점을 다음 단어 처음으로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', '오른쪽 화살표'] },
+        { category: '일반 단축키', description: '삽입 지점을 이전 단어 처음으로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', '왼쪽 화살표'] },
+        { category: '일반 단축키', description: '삽입 지점을 다음 단락 처음으로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', '아래쪽 화살표'] },
+        { category: '일반 단축키', description: '삽입 지점을 이전 단락 처음으로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', '위쪽 화살표'] },
+        { category: '일반 단축키', description: '텍스트 블록 강조 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'Shift', '화살표 키'] },
+        { category: '일반 단축키', description: '여러 항목 선택 또는 텍스트 선택', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Shift', '화살표 키'] },
+        { category: '일반 단축키', description: '모두 선택', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'A'] },
+        { category: '일반 단축키', description: '파일 또는 폴더 찾기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['F3'] },
+        { category: '일반 단축키', description: '선택한 항목의 등록 정보 보기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'Enter'] },
+        { category: '일반 단축키', description: '활성 항목 닫기 또는 프로그램 종료', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'F4'] },
+        { category: '일반 단축키', description: '활성 창의 바로 가기 메뉴 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', '스페이스바'] },
+        { category: '일반 단축키', description: '여러 문서 프로그램에서 활성 문서 닫기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'F4'] },
+        { category: '일반 단축키', description: '열린 항목 사이 전환', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'Tab'] },
+        { category: '일반 단축키', description: '연 순서대로 항목 순환', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'Esc'] },
+        { category: '일반 단축키', description: '창이나 바탕 화면의 화면 요소 순환', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['F6'] },
+        { category: '일반 단축키', description: '내 컴퓨터/탐색기에서 주소 표시줄 목록 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['F4'] },
+        { category: '일반 단축키', description: '선택한 항목 바로 가기 메뉴 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Shift', 'F10'] },
+        { category: '일반 단축키', description: '활성 창 시스템 메뉴 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', '스페이스바'] },
+        { category: '일반 단축키', description: '시작 메뉴 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'Esc'] },
+        { category: '일반 단축키', description: '메뉴 이름 밑줄 표시 문자 선택', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', '밑줄 문자'] },
+        { category: '일반 단축키', description: '해당 명령 수행', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['밑줄 문자'] },
+        { category: '일반 단축키', description: '활성 프로그램 메뉴 모음 활성화', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['F10'] },
+        { category: '일반 단축키', description: '오른쪽 메뉴 열기 또는 하위 메뉴 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['오른쪽 화살표'] },
+        { category: '일반 단축키', description: '왼쪽 메뉴 열기 또는 하위 메뉴 닫기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['왼쪽 화살표'] },
+        { category: '일반 단축키', description: '활성 창 업데이트', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['F5'] },
+        { category: '일반 단축키', description: '내 컴퓨터/탐색기에서 한 레벨 위 폴더 보기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['백스페이스'] },
+        { category: '일반 단축키', description: '현재 작업 취소', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Esc'] },
+        { category: '일반 단축키', description: 'CD-ROM 자동 재생 방지', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Shift', 'CD 삽입'] },
+        // Ctrl + D 추가
+        { category: '일반 단축키', description: '선택 항목 복제', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'D'] },
+
+        // --- 대화 상자 단축키 ---
+        { category: '대화 상자', description: '탭을 통해 앞으로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'Tab'] },
+        { category: '대화 상자', description: '탭을 통해 뒤로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'Shift', 'Tab'] },
+        { category: '대화 상자', description: '다음 옵션으로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Tab'] },
+        { category: '대화 상자', description: '이전 옵션으로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Shift', 'Tab'] },
+        { category: '대화 상자', description: '해당 명령 수행 또는 옵션 선택', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', '밑줄 문자'] },
+        { category: '대화 상자', description: '활성 옵션/단추에 대한 명령 수행', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Enter'] },
+        { category: '대화 상자', description: '활성 옵션(확인란) 선택/선택 취소', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['스페이스바'] },
+        { category: '대화 상자', description: '옵션 단추 그룹에서 단추 하나 선택', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['화살표 키'] },
+        { category: '대화 상자', description: '도움말 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['F1'] },
+        { category: '대화 상자', description: '활성 목록에 항목 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['F4'] },
+        { category: '대화 상자', description: '저장/열기 대화 상자에서 한 수준 위 폴더 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['백스페이스'] },
+
+        // --- Microsoft Natural 단축키 ---
+        { category: 'Microsoft Natural', description: '시작 메뉴 표시/숨김', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Windows 키'] },
+        { category: 'Microsoft Natural', description: '시스템 등록 정보 대화 상자 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Windows 키', 'Break'] },
+        { category: 'Microsoft Natural', description: '바탕 화면 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Windows 키', 'D'] },
+        { category: 'Microsoft Natural', description: '모든 창 최소화', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Windows 키', 'M'] },
+        { category: 'Microsoft Natural', description: '최소화된 창 원래 크기로 복원', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Windows 키', 'Shift', 'M'] },
+        { category: 'Microsoft Natural', description: '내 컴퓨터 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Windows 키', 'E'] },
+        { category: 'Microsoft Natural', description: '파일이나 폴더 검색', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Windows 키', 'F'] },
+        { category: 'Microsoft Natural', description: '컴퓨터 검색', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'Windows 키', 'F'] },
+        { category: 'Microsoft Natural', description: 'Windows 도움말 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Windows 키', 'F1'] },
+        { category: 'Microsoft Natural', description: '키보드 잠금', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Windows 키', 'L'] },
+        { category: 'Microsoft Natural', description: '실행 대화 상자', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Windows 키', 'R'] },
+        { category: 'Microsoft Natural', description: '유틸리티 관리자 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Windows 키', 'U'] },
+
+        // --- 내게 필요한 옵션 단축키 ---
+        { category: '내게 필요한 옵션', description: '필터키 설정/해제', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['오른쪽 Shift', '8초 누름'] },
+        { category: '내게 필요한 옵션', description: '고대비 켜기/끄기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['왼쪽 Alt', '왼쪽 Shift', 'Print Screen'] },
+        { category: '내게 필요한 옵션', description: '마우스키 설정/해제', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['왼쪽 Alt', '왼쪽 Shift', 'Num Lock'] },
+        { category: '내게 필요한 옵션', description: '고정키 설정/해제', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Shift', '5번 누름'] },
+        { category: '내게 필요한 옵션', description: '토글 키 설정/해제', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Num Lock', '5초 누름'] },
+        { category: '내게 필요한 옵션', description: '유틸리티 관리자 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Windows 키', 'U'] },
+
+        // --- Windows 탐색기 단축키 ---
+        { category: 'Windows 탐색기', description: '활성 창 맨 아래 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['End'] },
+        { category: 'Windows 탐색기', description: '활성 창 맨 위 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Home'] },
+        { category: 'Windows 탐색기', description: '선택한 폴더의 모든 하위 폴더 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Num Lock', '별표(*)'] },
+        { category: 'Windows 탐색기', description: '선택한 폴더 내용물 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Num Lock', '더하기(+)'] },
+        { category: 'Windows 탐색기', description: '선택한 폴더 축소', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Num Lock', '빼기(-)'] },
+        { category: 'Windows 탐색기', description: '선택 항목 축소 또는 부모 폴더 선택', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['왼쪽 화살표'] },
+        { category: 'Windows 탐색기', description: '선택 항목 확장 또는 첫 번째 하위 폴더 선택', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['오른쪽 화살표'] },
+
+        // --- 문자표 단축키 ---
+        { category: '문자표', description: '오른쪽으로 이동 또는 다음 줄 처음으로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['오른쪽 화살표'] },
+        { category: '문자표', description: '왼쪽으로 이동 또는 이전 줄 끝으로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['왼쪽 화살표'] },
+        { category: '문자표', description: '한 줄 위로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['위쪽 화살표'] },
+        { category: '문자표', description: '한 줄 아래로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['아래쪽 화살표'] },
+        { category: '문자표', description: '한 번에 한 화면 위로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Page Up'] },
+        { category: '문자표', description: '한 번에 한 화면 아래로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Page Down'] },
+        { category: '문자표', description: '해당 줄 처음으로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Home'] },
+        { category: '문자표', description: '해당 줄 끝으로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['End'] },
+        { category: '문자표', description: '처음 문자로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'Home'] },
+        { category: '문자표', description: '마지막 문자로 이동', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'End'] },
+        { category: '문자표', description: '확장 모드와 일반 모드 전환', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['스페이스바'] },
+
+        // --- Microsoft 관리 콘솔(MMC) 기본 창 단축키 ---
+        { category: 'MMC 기본 창', description: '저장된 콘솔 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'O'] },
+        { category: 'MMC 기본 창', description: '새 콘솔 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'N'] },
+        { category: 'MMC 기본 창', description: '연 콘솔 저장', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'S'] },
+        { category: 'MMC 기본 창', description: '콘솔 항목 추가/제거', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'M'] },
+        { category: 'MMC 기본 창', description: '새 창 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'W'] },
+        { category: 'MMC 기본 창', description: '모든 콘솔 창 내용 업데이트', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['F5'] },
+        { category: 'MMC 기본 창', description: 'MMC 창 메뉴 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', '스페이스바'] },
+        { category: 'MMC 기본 창', description: '콘솔 닫기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'F4'] },
+        { category: 'MMC 기본 창', description: '동작 메뉴 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'A'] },
+        { category: 'MMC 기본 창', description: '보기 메뉴 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'V'] },
+        { category: 'MMC 기본 창', description: '파일 메뉴 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'F'] },
+        { category: 'MMC 기본 창', description: '즐겨찾기 메뉴 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'O'] },
+        
+        // --- MMC 콘솔 창 단축키 ---
+        { category: 'MMC 콘솔 창', description: '현재 페이지나 활성 창 인쇄', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'P'] },
+        { category: 'MMC 콘솔 창', description: '활성 콘솔 창 창 메뉴 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', '빼기(-)'] },
+        { category: 'MMC 콘솔 창', description: '선택한 항목의 동작 바로 가기 메뉴 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Shift', 'F10'] },
+        { category: 'MMC 콘솔 창', description: '선택한 항목의 도움말 항목 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['F1'] },
+        { category: 'MMC 콘솔 창', description: '모든 콘솔 창 내용 업데이트', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['F5'] },
+        { category: 'MMC 콘솔 창', description: '활성 콘솔 창 최대화', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'F10'] },
+        { category: 'MMC 콘솔 창', description: '활성 콘솔 창 원래 크기로 복원', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'F5'] },
+        { category: 'MMC 콘솔 창', description: '선택한 항목의 등록 정보 대화 상자 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'Enter'] },
+        { category: 'MMC 콘솔 창', description: '선택한 항목 이름 바꾸기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['F2'] },
+        { category: 'MMC 콘솔 창', description: '활성 콘솔 창 닫기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'F4'] },
+        
+        // --- 원격 데스크톱 연결 탐색 ---
+        { category: '원격 데스크톱', description: 'Windows NT 보안 대화 상자 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'Alt', 'End'] },
+        { category: '원격 데스크톱', description: '프로그램 사이 (왼쪽에서 오른쪽) 전환', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'Page Up'] },
+        { category: '원격 데스크톱', description: '프로그램 사이 (오른쪽에서 왼쪽) 전환', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'Page Down'] },
+        { category: '원격 데스크톱', description: '가장 최근 사용한 순서대로 프로그램 순환', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'Insert'] },
+        { category: '원격 데스크톱', description: '시작 메뉴 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'Home'] },
+        { category: '원격 데스크톱', description: '클라이언트 컴퓨터를 창과 전체 화면 사이 전환', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'Alt', 'Break'] },
+        { category: '원격 데스크톱', description: 'Windows 메뉴 표시', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Alt', 'Delete'] },
+        { category: '원격 데스크톱', description: '클라이언트의 활성 창 스냅샷 (로컬 Print Screen과 동일)', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'Alt', '빼기(-)'] },
+        { category: '원격 데스크톱', description: '전체 클라이언트 창 영역 스냅샷 (로컬 Alt+Print Screen과 동일)', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'Alt', '더하기(+)'] },
+
+        // --- Microsoft Internet Explorer 탐색 ---
+        { category: 'Internet Explorer', description: '즐겨찾기 구성 대화 상자 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'B'] },
+        { category: 'Internet Explorer', description: '검색 창 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'E'] },
+        { category: 'Internet Explorer', description: '찾기 유틸리티 시작', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'F'] },
+        { category: 'Internet Explorer', description: '열어본 페이지 목록 창 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'H'] },
+        { category: 'Internet Explorer', description: '즐겨찾기 창 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'I'] },
+        { category: 'Internet Explorer', description: '열기 대화 상자 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'L'] },
+        { category: 'Internet Explorer', description: '브라우저 다른 인스턴스를 같은 웹 주소로 시작', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'N'] },
+        { category: 'Internet Explorer', description: '열기 대화 상자 열기 (Ctrl+L과 동일)', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'O'] },
+        { category: 'Internet Explorer', description: '인쇄 대화 상자 열기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'P'] },
+        { category: 'Internet Explorer', description: '현재 웹 페이지 업데이트', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'R'] },
+        { category: 'Internet Explorer', description: '현재 창 닫기', os: 'Windows', version: 'N/A', app: 'OS 기본', keys: ['Ctrl', 'W'] },
+
+        // --- 프로그램별 단축키 예시 데이터 (현재 UI에서는 검색되지 않음, 데이터는 유지) ---
+        { category: '노션 일반', description: '새 페이지 생성', os: 'Windows', version: 'N/A', app: 'Notion', keys: ['Ctrl', 'N'] },
+        { category: '노션 일반', description: '새 페이지 생성', os: 'Mac', version: 'N/A', app: 'Notion', keys: ['Command', 'N'] },
+        { category: '노션 일반', description: '토글 블록 생성', os: 'Windows', version: 'N/A', app: 'Notion', keys: ['Ctrl', 'Shift', '5'] },
+        { category: '피그마 툴', description: '사각형 툴', os: 'Windows', version: 'N/A', app: 'Figma', keys: ['R'] },
+        { category: '피그마 툴', description: '텍스트 툴', os: 'Mac', version: 'N/A', app: 'Figma', keys: ['T'] },
+        { category: 'VS Code 편집', description: '라인 복제', os: 'Windows', version: 'N/A', app: 'VS Code', keys: ['Shift', 'Alt', '아래 화살표'] },
+        { category: 'VS Code 편집', description: '라인 삭제', os: 'Mac', version: 'N/A', app: 'VS Code', keys: ['Command', 'Shift', 'K'] },
+        { category: '포토샵 레이어', description: '새 레이어', os: 'Windows', version: 'N/A', app: 'Photoshop', keys: ['Ctrl', 'Shift', 'N'] },
+        { category: '포토샵 레이어', description: '선택 레이어 복제', os: 'Windows', version: 'N/A', app: 'Photoshop', keys: ['Ctrl', 'J'] },
+        { category: 'Chrome 탭', description: '새 탭 열기', os: 'Windows', version: 'N/A', app: 'Chrome', keys: ['Ctrl', 'T'] },
+        { category: 'Chrome 탭', description: '닫은 탭 다시 열기', os: 'Windows', version: 'N/A', app: 'Chrome', keys: ['Ctrl', 'Shift', 'T'] },
+    ];
+
+    const osVersions = {
+        Windows: ['Windows 11', 'Windows 10', 'Windows (General)', 'N/A'],
+        Mac: ['macOS Sonoma', 'macOS Ventura', 'macOS (General)', 'N/A'],
+    };
+</script>
 </body>
 </html>
-
