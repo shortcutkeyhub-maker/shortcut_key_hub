@@ -786,7 +786,7 @@
                 const keys = keysStr.split(',').map(k => k.trim()).filter(Boolean);
                 const timestamp = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
 
-                fetch('YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE', { // ✨ 여기에 네 웹 앱 URL 꼭 넣어줘! ✨
+                fetch('https://script.google.com/macros/s/AKfycbxlgT7j7hmSqJQyWKXY_Xwp2gxArD83-r63QIm9ngx99op-Orb-vTbVimTPeuKM24IP/exec', { // ✨ 여기에 네 웹 앱 URL 꼭 넣어줘! ✨
                     method: 'POST',
                     mode: 'no-cors', 
                     headers: { 'Content-Type': 'application/json' },
@@ -1005,3 +1005,4 @@
 </script>
 </body>
 </html>
+
